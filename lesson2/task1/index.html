@@ -1,0 +1,16 @@
+<script type="text/javascript">
+    function getOddNumbers(number) {
+        let list = [];
+        let pushNumbers = function (from, to) {
+            if (from > to) {
+                return;
+            }
+            list.push(from);
+            pushNumbers(from + 2, to);
+        };
+        pushNumbers(1, number);
+        return list;
+    }
+
+    document.write(getOddNumbers(25));
+</script>
