@@ -1,0 +1,12 @@
+<script>
+    var user = Object.create(null);
+    user.name = prompt('Введите ваше имя');
+    user.birthday = prompt('Введите вашу дату рождения');
+    user.address = prompt('Введите ваш адрес');
+
+    document.write('Ваше имя: ' + (user.name || '-'));
+    document.write('<br />');
+    document.write('Ваша дата рождения: ' + (user.birthday || '-'));
+    document.write('<br />');
+    document.write('Ваш адрес: ' + (user.address || '-'));
+</script>
