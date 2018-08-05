@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>JS School</title>
+
+    <style>
+        .tree {
+            width: 220px;
+            padding: 10px;
+        }
+        .folder-icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-image: url("folder-icon.png");
+            position: relative;
+            top: 3px;
+            margin-right: 7px;
+        }
+        .folder {
+            line-height: 23px;
+            padding: 0 5px;
+        }
+        .folder span {
+            display: block;
+        }
+        .folder:hover {
+            cursor: pointer;
+        }
+        .folder:hover > span {
+            color: #4475a7;
+        }
+
+        .sub-folder {
+            padding-left: 15px;
+            display: none;
+        }
+        .folder.opened > .sub-folder {
+            display: block;
+        }
+        .folder.selected > span{
+            background: #c9c8dc;
+        }
+    </style>
+
+    <script>
+        window.onload = function () {
+            let rows = document.getElementsByClassName('folder');
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].addEventListener('dblclick', function (e) {
+                    e.stopPropagation();
+                    e.currentTarget.classList.toggle('opened');
+                });
+            
+                rows[i].addEventListener('click', e => {
+                    e.stopPropagation();
+                    if (!e.shiftKey) {
+                        for (let k = 0; k < rows.length; k++) {
+                            rows[k].classList.remove('selected');
+                        }
+                    }
+                    e.currentTarget.classList.toggle('selected');
+                });
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="tree">
+        <div class="folder opened">
+            <span><i class="folder-icon control"></i>asterai</span>
+            <div class="folder sub-folder"><span><i class="folder-icon"></i>asterai.com</span></div>
+            <div class="folder sub-folder opened">
+                <span><i class="folder-icon"></i>asterai.com-design</span>
+                <div class="folder sub-folder"><span><i class="folder-icon"></i>version 1.1</span></div>
+                <div class="folder sub-folder"><span><i class="folder-icon"></i>version 1.3</span></div>
+            </div>
+        </div>
+        <div class="folder"><span><i class="folder-icon"></i>bot_developer</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>ghostpdl</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>js_school</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>learn</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>ml</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>opensource</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>test</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>tests</span></div>
+        <div class="folder"><span><i class="folder-icon"></i>trueedit</span></div>
+    </div>
+</body>
+</html>
