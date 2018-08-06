@@ -45,10 +45,10 @@
     </style>
 
     <script>
-        window.onload = function () {
+        window.onload = () => {
             let rows = document.getElementsByClassName('folder');
             for (let i = 0; i < rows.length; i++) {
-                rows[i].addEventListener('dblclick', function (e) {
+                rows[i].addEventListener('dblclick', e => {
                     e.stopPropagation();
                     e.currentTarget.classList.toggle('opened');
                 });
