@@ -8,7 +8,6 @@
         .tree {
             padding: 15px;
         }
-
         .folder-icon {
             display: inline-block;
             width: 16px;
@@ -19,29 +18,31 @@
             margin-right: 7px;
         }
 
-        .row {
+        .folder {
             line-height: 23px;
         }
 
-        .row.sub-row {
+        .folder.sub-folder {
             padding-left: 15px;
         }
     </style>
 </head>
 <body>
-    <div class="tree">
-        <div class="row"><i class="folder-icon"></i>asterai</div>
-        <div class="row sub-row"><i class="folder-icon"></i>asterai.com</div>
-        <div class="row sub-row"><i class="folder-icon"></i>asterai.com-design</div>
-        <div class="row"><i class="folder-icon"></i>bot_developer</div>
-        <div class="row"><i class="folder-icon"></i>ghostpdl</div>
-        <div class="row"><i class="folder-icon"></i>js_school</div>
-        <div class="row"><i class="folder-icon"></i>learn</div>
-        <div class="row"><i class="folder-icon"></i>ml</div>
-        <div class="row"><i class="folder-icon"></i>opensource</div>
-        <div class="row"><i class="folder-icon"></i>test</div>
-        <div class="row"><i class="folder-icon"></i>tests</div>
-        <div class="row"><i class="folder-icon"></i>trueedit</div>
+<div class="tree">
+    <div class="folder opened">
+        <span><i class="folder-icon control"></i>asterai</span>
+        <div class="folder sub-folder"><span><i class="folder-icon"></i>asterai.com</span></div>
+        <div class="folder sub-folder"><span><i class="folder-icon"></i>asterai.com-design</span></div>
     </div>
+    <div class="folder"><span><i class="folder-icon"></i>bot_developer</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>ghostpdl</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>js_school</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>learn</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>ml</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>opensource</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>test</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>tests</span></div>
+    <div class="folder"><span><i class="folder-icon"></i>trueedit</span></div>
+</div>
 </body>
 </html>
