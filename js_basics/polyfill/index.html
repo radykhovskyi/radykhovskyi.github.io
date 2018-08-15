@@ -1,0 +1,68 @@
+<script>
+  Array.prototype._forEach = function(func) {
+    for (let i = 0; i < this.length; i++) {
+      func(this[i], i, this);
+    }
+  };
+
+  Array.prototype._map = function(func) {
+    let result = [];
+    for (let i = 0; i < this.length; i++) {
+      result.push(func(this[i], i, this));
+    }
+    return result;
+  };
+
+  Array.prototype._filter = function(func) {
+    let result = [];
+    for (let i = 0; i < this.length; i++) {
+      if (func(this[i], i, this)) {
+        result.push(this[i]);
+      }
+    }
+    return result;
+  };
+
+  Array.prototype._reduce = function(func, state) {
+    for (let i = 0; i < this.length; i++) {
+      state = func(state, this[i], i, this);
+    }
+    return state;
+  };
+
+  Array.prototype._some = function(func) {
+    for (let i = 0; i < this.length; i++) {
+      if (func(this[i], i, this)) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  Array.prototype._every = function(func) {
+    for (let i = 0; i < this.length; i++) {
+      if (!func(this[i], i, this)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const data = [0, 1, 2, 3];
+
+  document.write("Source data:" + data + "<br />");
+  document.write("forEach usage: <br />");
+  data._forEach((item, index) =>
+    document.write("Item: " + item + "; index - " + index + "<br />")
+  );
+  document.write("map usage: <br />");
+  document.write("item * item: " + data._map(item => item * item));
+  document.write("<br />filter usage: <br />");
+  document.write("Number greater than 0:" + data._filter(item => item > 0));
+  document.write("<br />reduce usage: <br />");
+  document.write("Total: " + data._reduce((state, item) => item + state, 0));
+  document.write("<br />some usage: <br />");
+  document.write("Some greater than 0: " + data._some(item => item > 0));
+  document.write("<br />every usage: <br />");
+  document.write("Every greater than 0: " + data._every(item => item > 0));
+</script>
