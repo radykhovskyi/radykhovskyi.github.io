@@ -1,5 +1,5 @@
 
-const rowData = [
+let rowData = [
   {
     email: 'ast@sa.com',
     name: 'Vasia',
@@ -20,7 +20,9 @@ class App {
 
   run() {
     const rootContainer = document.getElementById(this._renderTo);
-
+    while (rootContainer.hasChildNodes()) {
+      rootContainer.removeChild(rootContainer.lastChild);
+    }
     rootContainer.appendChild(this._buildTable());
   }
 
@@ -33,12 +35,23 @@ class App {
       .addChild(new Component({innerText: "E-mail"}, 'th'))
       .addChild(new Component({innerText: "User name"}, 'th'))
       .addChild(new Component({innerText: "Password"}, 'th'))
+      .addChild(new Component({innerText: "Actions"}, 'th'))
     ;
     thead.addChild(tRowHead)
     table.addChild(thead);
 
-    rowData.forEach(elData => {
-      table.addChild(new RowComponent({data: elData}, 'tr'))
+    rowData.forEach((elData, index, data) => {
+      const rowComponent = new RowComponent({data: elData}, 'tr');
+      const clickListener = (e) => {
+        e.stopPropagation();
+        e.preventDefault();
+        rowComponent.remove();
+        delete data[index];
+        app.run();
+      };
+      elData.actions = new Component({innerText: "Delete", href: '#'}, 'a')
+        .addListener('click', clickListener);
+      table.addChild(rowComponent);
     });
 
     return table.render();

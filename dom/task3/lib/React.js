@@ -7,6 +7,7 @@ class Component {
     this._props = props;
 
     this._children = [];
+    this._listeners = [];
   }
 
   /**
@@ -43,6 +44,13 @@ class Component {
       domElement.setAttribute(attr, this._props[attr]);
     });
 
+    const eventTypes = Object.keys(this._listeners);
+    eventTypes.forEach((type) => {
+      this._listeners[type].forEach((handler) => {
+        domElement.addEventListener(type, handler);
+      });
+    });
+
     return domElement;
   }
 
@@ -52,6 +60,17 @@ class Component {
     return this;
   }
 
+  remove() {
+    this._listeners = [];
+    return this;
+  }
+
+  addListener(type, handler) {
+    this._listeners[type] = this._listeners[type] || [];
+    this._listeners[type].push(handler);
+
+    return this;
+  }
 }
 
 Component.specialAttrs = new Set([
