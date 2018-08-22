@@ -1,0 +1,40 @@
+<script type="text/javascript">
+  const timeout = maxTimeout =>
+    new Promise((_, reject) =>
+      setTimeout(
+        () => reject(new Error("Timeout")),
+        maxTimeout
+      )
+  );
+
+  const fetchGithubUser = userName => fetch(`https://api.github.com/users/${userName}`);
+
+  const appendUserInfo = user => {
+    const html = `
+      <img src="${user.avatar_url}" />
+      <h3>${user.name}</h3>
+      <div>${user.login}</div>
+    `;
+     document.write(html);
+  };
+
+  const appendError = err => {
+    document.write(`<h2 style="color: red">${err}</h2>`);
+  };
+
+  const checkSuccess = result =>
+    result.status >= 400
+      ? result
+        .json()
+        .then(err => Promise.reject(new Error(`Fetch error: ${err.message}`)))
+      : result;
+
+  const showInfo = (userName, maxTimeout = 100) =>
+    Promise.race([timeout(maxTimeout), fetchGithubUser(userName)])
+      .then(checkSuccess)
+      .then(res => res.json())
+      .then(appendUserInfo)
+      .catch(appendError);
+
+  showInfo("gaearon", 1000);
+</script>
