@@ -1,0 +1,17 @@
+.users-list {
+  padding: 25px 0;
+}
+.user-info img {
+  max-width: 65px;
+  max-height: 65px;
+  margin-bottom: 10px;
+}
+.user-info .info {
+  padding-left: 10px;
+}
+.user-info .username {
+  padding-right: 10px;
+}
+.user-info .link {
+  padding: 10px 0 0 0;
+}
