@@ -19,11 +19,12 @@ class Teacher extends Actor {
 	}
 
 	canGoToLesson() {
-		return Math.random(0, 1) >= 0.2;
+		return Math.random(0, 1) >= 0.1;
 	}
 
 	rateStudent(student) {
-		const rating = Math.ceil(Math.random(0, 9) * 10);
+		const minValue = Math.ceil(Math.log2(this.getScientificWorkCount() * 5));
+		const rating = getRandomInt(minValue, 10);
 		student.rate(this.getSpecialization(), rating);
 		return this;
 	}

@@ -6,7 +6,7 @@ class Student extends Actor {
 	}
 
 	canGoToLesson() {
-		return Math.random(0, 1) >= 0.45;
+		return Math.random(0, 1) >= 0.2;
 	}
 
 	rate(specialization, rating) {
@@ -16,5 +16,9 @@ class Student extends Actor {
 
 	getAvgRating() {
 		return this._ratings.reduce((state, item) => state + item.rating, 0) / this._ratings.length;
+	}
+
+	getSumRating() {
+		return this._ratings.reduce((total, item) => total + item.rating, 0);
 	}
 }

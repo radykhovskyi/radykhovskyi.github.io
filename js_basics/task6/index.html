@@ -1,77 +1,33 @@
+<script type="text/javascript" src="js/SourceFactory.js"></script>
 <script type="text/javascript" src="js/School.js"></script>
 <script type="text/javascript" src="js/Actor.js"></script>
 <script type="text/javascript" src="js/Student.js"></script>
 <script type="text/javascript" src="js/Teacher.js"></script>
 <script type="text/javascript" src="js/Administrator.js"></script>
+<script type="text/javascript" src="js/CourseAnalizer.js"></script>
 <script>
 function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min)) + min;
+  const rand = min - 0.5 + Math.random() * (max - min + 1)
+  return Math.round(rand);
 }
-	
-const source = {
-	students: [
-		['Micheal', 25],
-		['Owen', 22],
-		['Amanda', 23],
-		['Diane', 22],
-		['Harry', 21]
-	],
-	teachers: [
-		['Ricky', 33, 'math', 15],
-		['Wesley', 29, 'biology', 5],
-		['Hudson', 38, 'chemistry', 10],
-	],
-	administrator: ['Fiona', 31]
-};
-
-const students = source.students.map(data => new Student(...data));
-const teachers = source.teachers.map(data => new Teacher(...data.slice(0, 3)).setScientificWorkCount(data[3]));
-const administrator = new Administrator(...source.administrator);
-new School().run(administrator, teachers, students);
-console.log('------------');
-
-const Table = (headers, data) => {
-	return `
-		<table class="table">
-			<thead>
-				<tr>
-					${headers.map(header => `<th>${header}</th>`).join('')}
-				</tr>
-			</thead>
-			<tbody>
-				${data.map(item => {
-					return '<tr>' + item.map(column => `<td>${column}</td>`).join('') + '</tr>';
-				}).join('')}
-			</tbody>
-		</table>
-	`;
-};
 
 window.onload = () => {
-	const app = document.getElementById('app');
-	const studentsData = students.map(student => [student.getName(), student.getAvgRating().toFixed(2), '+']);
-	app.innerHTML = `
-		<table class="table">
-			<thead>
-				<tr>
-					<th>Student</th>
-					<th>Avg rating</th>
-					<th>Result</th>
-				</tr>
-			</thead>
-			<tbody>
-				${students.map(student => {
-					return `<tr>
-						<td>${student.getName()}</td>
-						<td>${student.getAvgRating().toFixed(2)}</td>
-						<td>+</td>
-					</tr>`;
-				}).join('')}
-			</tbody>
-		</table>
-	`;
+	const { students, teachers, administrator } = SourceFactory.getSourceData();
+	const school = new School();
+	const courseAnalizer = new CourseAnalizer(school.getLessonsCount(), teachers.length, administrator);
+	school.run(administrator, teachers, students);
+
+	console.log('----------------------------');
+	console.log('Name Result Avg rate');
+	students.forEach(student => {
+		let result = 'Failed';
+		if (courseAnalizer.isExcellent(student)) {
+			result = 'Excellent';
+		} else if (courseAnalizer.isPassed(student)) {
+			result = 'Passed';
+		}
+
+		console.log(`${student.getName()} ${result} ${student.getAvgRating().toFixed(2)}`);
+	});
 }
 </script>
-
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-<div id="app">---</div>

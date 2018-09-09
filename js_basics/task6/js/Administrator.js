@@ -1,11 +1,10 @@
 class Administrator extends Actor {
 
 	canGoToLesson() {
-		return Math.random(0, 1) >= 0.3;
+		return Math.random(0, 1) >= 0.1;
 	}
 
 	performLesson(teacher, students) {
-		console.log(teacher.getSpecialization());
 		if (!this.canGoToLesson()) {
 			[this, teacher].concat(students).forEach(actor => actor.missLesson());
 			return false;
@@ -20,7 +19,7 @@ class Administrator extends Actor {
 				student.missLesson();
 				return;
 			}
-			student.logAction('go to the lesson')
+			student.logAction(`go to the lesson (${teacher.getSpecialization()})`)
 			teacher.rateStudent(student);
 		});
 		return true;
