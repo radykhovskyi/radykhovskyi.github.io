@@ -1,6 +1,12 @@
 h4 {
   margin: 10px 0;
 }
+.align-left {
+  float: left;
+}
+.align-right {
+  float: right;
+}
 .stats {
   margin: 15px 0;
 }
@@ -10,7 +16,7 @@ h4 {
   margin-bottom: 10px;
 }
 
-.user-info {
+.user-info, .edit-profile {
   margin: 30px 0;
 }
 
@@ -23,4 +29,17 @@ h4 {
 }
 .card {
   border: none;
+}
+.user-info .card-title {
+  display: block;
+  padding: 10px 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+.info textarea {
+  height: 100px;
+}
+
+.username {
+  margin: 15px 0;
 }

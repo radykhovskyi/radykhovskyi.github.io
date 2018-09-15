@@ -12,19 +12,24 @@ const UserStats = ({ repositories, following, followers }) => {
   )
 };
 
-const UserInfo = ({name, username, avatar, company, location, repositories, following, followers}) => {
+const UserInfo = ({name, login, avatar_url, bio, company, location, public_repos, following, followers, toggleView}) => {
+  const handleClick = (e) => {
+    e.preventDefault();
+    toggleView();
+  };
   return (
     <div className="card user-info">
       <div className="card-body">
-        <img className="card-img-top" src={avatar} alt="Avatar" />
-        <h5 className="card-title">{name}</h5>
-        <p className="card-text">username</p>
+        <img className="card-img-top" src={avatar_url} alt="Avatar" />
+        <a className="card-title" onClick={handleClick} href="">{name}</a>
+        <p className="card-text">{login}</p>
 
+        <div>Bio: {bio || '-'}</div>
         <div>Company: {company || '-'}</div>
         <div>Location: {location || '-'}</div>
 
         <UserStats
-          repositories={repositories}
+          repositories={public_repos}
           following={following}
           followers={followers}
         />
