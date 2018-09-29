@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import UserFollowingPage from './UserProfile/UserFollowingPage';
 import UserFollowersPage from './UserProfile/UserFollowersPage';
 import UserEditPage from './UserProfile/UserEditPage';
@@ -11,7 +11,7 @@ const App = () => {
   const username = config.github.username;
   return (
     <div className="container">
-        <BrowserRouter>
+        <Router>
           <Switch>
             <Route exact path='/' render={(props) => <Redirect to={`/${username}/following`} />} />
             <Route exact path='/:username/following' render={({ match }) => <UserProfileProvider username={match.params.username}><UserFollowingPage /></UserProfileProvider>} />
@@ -19,7 +19,7 @@ const App = () => {
             <Route exact path='/:username/edit' render={({ match }) => <UserProfileProvider username={match.params.username}><UserEditPage /></UserProfileProvider>} />
             <Route exact path='/:username' render={({ match }) => <Redirect to={`/${match.params.username}/following`} />} />
           </Switch>
-        </BrowserRouter>
+        </Router>
     </div>
   );
 }
