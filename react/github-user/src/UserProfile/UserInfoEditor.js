@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import UserProfileProvider from './UserProfileProvider';
 
 class UserInfoEditor extends React.Component {
@@ -13,7 +13,8 @@ class UserInfoEditor extends React.Component {
       company: user.company,
       location: user.location,
       bio: user.bio,
-      token: ''
+      token: '',
+      redirect: null
     }
   }
   changeName = ({ target }) => this.setState({
@@ -38,7 +39,7 @@ class UserInfoEditor extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { saveUser, history } = this.props;
+    const { saveUser } = this.props;
     if (typeof saveUser !== 'function') return;
     const { name, company, location, bio, token } = this.state;
     if (!token || token.length === 0) {
@@ -47,13 +48,18 @@ class UserInfoEditor extends React.Component {
     }
 
     saveUser({ name, company, location, bio}, token)
-      .then(response => history.push(`/${response.login}/following`))
+      .then(response => this.setState({ redirect: `/${response.login}/following` }))
       .catch(error => alert(`Github error: ${error}`));
   }
 
   render() {
     const { user } = this.props;
     const { avatar_url, login } = user;
+    const { redirect }  = this.state;
+
+    if (redirect !== null) {
+      return <Redirect to={redirect} />;
+    }
 
     return (
       <form onSubmit={this.handleSubmit} className="edit-profile">
@@ -100,4 +106,4 @@ class UserInfoEditor extends React.Component {
   }
 }
 
-export default UserProfileProvider.connect()(withRouter(UserInfoEditor));
+export default UserProfileProvider.connect()(UserInfoEditor);
