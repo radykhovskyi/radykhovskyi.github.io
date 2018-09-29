@@ -1,17 +1,21 @@
 import React from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import UserProfileProvider from './UserProfileProvider';
 
 class UserInfoEditor extends React.Component {
 
   constructor(props) {
     super(props);
+
+    const { user } = this.props;
     this.state = {
-      name: props.name,
-      company: props.company,
-      location: props.location,
-      bio: props.bio
+      name: user.name,
+      company: user.company,
+      location: user.location,
+      bio: user.bio,
+      token: ''
     }
   }
-
   changeName = ({ target }) => this.setState({
     name: target.value,
   });
@@ -28,15 +32,28 @@ class UserInfoEditor extends React.Component {
     bio: target.value,
   });
 
+  changeToken = ({ target }) => this.setState({
+    token: target.value,
+  });
+
   handleSubmit = (e) => {
     e.preventDefault();
-    const { onSave } = this.props;
-    if (typeof onSave !== 'function') return;
-    onSave(this.state);
+    const { saveUser, history } = this.props;
+    if (typeof saveUser !== 'function') return;
+    const { name, company, location, bio, token } = this.state;
+    if (!token || token.length === 0) {
+      alert('Please fill the token field');
+      return;
+    }
+
+    saveUser({ name, company, location, bio}, token)
+      .then(response => history.push(`/${response.login}/following`))
+      .catch(error => alert(`Github error: ${error}`));
   }
 
   render() {
-    const { avatar_url, login, onCancel } = this.props;
+    const { user } = this.props;
+    const { avatar_url, login } = user;
 
     return (
       <form onSubmit={this.handleSubmit} className="edit-profile">
@@ -45,6 +62,12 @@ class UserInfoEditor extends React.Component {
             <img src={avatar_url} className="avatar" alt="Avatar" />
 
             <div className="username">{login}</div>
+
+            <div className="form-group">
+              <label>Token:</label>
+              <input type="password" className="form-control" value={this.state.token} onChange={this.changeToken} />
+            </div>
+            
           </div>  
           <div className="col-6">
             <div className="info">
@@ -66,7 +89,7 @@ class UserInfoEditor extends React.Component {
               </div>
 
               <div>
-                <button type="button" className="btn btn-secondary align-left" onClick={onCancel}>Cancel</button>
+                <Link to={`/${login}`} className="btn btn-secondary align-left">Cancel</Link>
                 <button type="submit" className="btn btn-success align-right">Save</button>
               </div>
              </div>
@@ -77,4 +100,4 @@ class UserInfoEditor extends React.Component {
   }
 }
 
-export default UserInfoEditor;
+export default UserProfileProvider.connect()(withRouter(UserInfoEditor));

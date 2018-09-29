@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import UserProfileProvider from './UserProfileProvider';
 
 const UserStats = ({ repositories, following, followers }) => {
   return (
@@ -12,30 +14,35 @@ const UserStats = ({ repositories, following, followers }) => {
   )
 };
 
-const UserInfo = ({name, login, avatar_url, bio, company, location, public_repos, following, followers, toggleView}) => {
-  const handleClick = (e) => {
-    e.preventDefault();
-    toggleView();
-  };
+const UserInfo = ({ user, children }) => {
   return (
-    <div className="card user-info">
-      <div className="card-body">
-        <img className="card-img-top" src={avatar_url} alt="Avatar" />
-        <a className="card-title" onClick={handleClick} href="">{name}</a>
-        <p className="card-text">{login}</p>
+    <div className="row">
+      <div className="col-4">
+        <div className="card user-info">
+          <div className="card-body">
+            <img className="card-img-top" src={user.avatar_url} alt="Avatar" />
+            <Link to={`/${user.login}/edit`}>{user.name}</Link>
+            <p className="card-text">{user.login}</p>
 
-        <div>Bio: {bio || '-'}</div>
-        <div>Company: {company || '-'}</div>
-        <div>Location: {location || '-'}</div>
+            <div>Bio: {user.bio || '-'}</div>
+            <div>Company: {user.company || '-'}</div>
+            <div>Location: {user.location || '-'}</div>
 
-        <UserStats
-          repositories={public_repos}
-          following={following}
-          followers={followers}
-        />
+            <UserStats
+              repositories={user.public_repos}
+              following={user.following}
+              followers={user.followers}
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="col-8">
+        {children}
       </div>
     </div>
   )
 };
 
-export default UserInfo;
+const toProps = ({ user }) => ({ user });
+export default UserProfileProvider.connect(toProps)(UserInfo);
